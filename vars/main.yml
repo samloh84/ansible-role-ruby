@@ -1,0 +1,19 @@
+urls:
+    2.1.10:
+        source:
+            file: ruby-2.1.10.tar.gz
+            dir: ruby-2.1.10
+            url: 'https://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.10.tar.gz'
+            hash: FB2E454D7A5E5A39EB54DB0EC666F53EEB6EDC593D1D2B970AE4D150B831DD20
+    2.2.5:
+        source:
+            file: ruby-2.2.5.tar.gz
+            dir: ruby-2.2.5
+            url: 'https://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.5.tar.gz'
+            hash: 30C4B31697A4CA4EA0C8DB8AD30CF45E6690A0F09687E5D483C933C03CA335E3
+    2.3.1:
+        source:
+            file: ruby-2.3.1.tar.gz
+            dir: ruby-2.3.1
+            url: 'https://cache.ruby-lang.org/pub/ruby/2.3/ruby-2.3.1.tar.gz'
+            hash: B87C738CB2032BF4920FEF8E3864DC5CF8EAE9D89D8D523CE0236945C5797DCD

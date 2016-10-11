@@ -1,0 +1,76 @@
+- set_fact:
+    download_dir: "{{ role_path }}/files"
+    temp_dir: "{{ tmp_prefix }}/ruby-{{ ruby_version }}"
+    ruby_dir: "{{ urls[ruby_version].source.dir }}"
+    ruby_url: "{{ urls[ruby_version].source.url }}"
+    ruby_hash: "{{ urls[ruby_version].source.hash }}"
+    ruby_filename: "{{ urls[ruby_version].source.file }}"
+
+- set_fact:
+    ruby_home: "{{ prefix }}/{{ ruby_dir }}"
+    ruby_archive_temp_path: "{{ temp_dir }}/{{ ruby_filename }}"
+    ruby_archive_download_path: "{{ download_dir }}/{{ ruby_filename }}"
+    ruby_temp_path: "{{ temp_dir }}/{{ ruby_dir }}"
+
+- name: "Create Temporary Directory {{ temp_dir }}"
+  file:
+    path: "{{ temp_dir }}"
+    state: directory
+
+- name: "Create Ruby Directory {{ ruby_home }}"
+  file:
+    path: "{{ ruby_home }}"
+    state: directory
+
+- name: "Install GCC C++"
+  yum:
+    name: "gcc-c++"
+    state: present
+
+- name: "Create Download Directory on control server: {{ download_dir }}"
+  delegate_to: 127.0.0.1
+  file:
+    path: "{{ download_dir }}"
+    state: directory
+
+
+- name: "Download Ruby archive to control server Download Path: {{ ruby_archive_download_path }}"
+  delegate_to: 127.0.0.1
+  get_url:
+    url: "{{ ruby_url }}"
+    dest: "{{ ruby_archive_download_path }}"
+    checksum: "sha256:{{ ruby_hash }}"
+
+- name: "Copy Ruby archive to Temporary Path: {{ ruby_archive_temp_path }}"
+  copy:
+    src: "{{ ruby_archive_download_path }}"
+    dest: "{{ ruby_archive_temp_path }}"
+
+- name: "Extract Ruby archive to Directory: {{ temp_dir }}"
+  unarchive:
+    src: "{{ ruby_archive_temp_path }}"
+    dest: "{{ temp_dir }}"
+    remote_src: yes
+
+- name: "Compile Ruby"
+  command: "./configure  --prefix {{ ruby_home }}"
+  args:
+    chdir: "{{ ruby_temp_path }}"
+
+- command: "make"
+  args:
+    chdir: "{{ ruby_temp_path }}"
+
+- command: "make install"
+  args:
+    chdir: "{{ ruby_temp_path }}"
+
+- name: "Install Ruby environment variables"
+  template:
+    src: "templates/ruby.sh.j2"
+    dest: "/etc/profile.d/ruby.sh"
+
+- name: "Clean Temporary files"
+  file:
+    path: "{{ tmp_prefix }}"
+    state: absent
