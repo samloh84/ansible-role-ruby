@@ -53,15 +53,15 @@
     remote_src: yes
 
 - name: "Compile Ruby"
-  command: "./configure  --prefix {{ ruby_home }}"
+  shell: "./configure  --prefix {{ ruby_home }}"
   args:
     chdir: "{{ ruby_temp_path }}"
 
-- command: "make"
+- shell: "make"
   args:
     chdir: "{{ ruby_temp_path }}"
 
-- command: "make install"
+- shell: "make install"
   args:
     chdir: "{{ ruby_temp_path }}"
 
