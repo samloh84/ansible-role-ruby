@@ -18,10 +18,6 @@ Available versions:
 Set the ```prefix``` parameter to install somewhere other than ```opt/ruby```
 
         prefix: "opt/ruby"
-
-Set the ```compile``` parameter to ```yes``` to compile Ruby from source
-
-        compile: no
         
 License
 -------
