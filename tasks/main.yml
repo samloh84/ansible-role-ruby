@@ -52,6 +52,31 @@
     dest: "{{ temp_dir }}"
     remote_src: yes
 
+
+- name: "Install Ruby Dependencies"
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - git-core
+    - zlib
+    - zlib-devel
+    - gcc-c++
+    - patch
+    - readline
+    - readline-devel
+    - libyaml-devel
+    - libffi-devel
+    - openssl-devel
+    - make
+    - bzip2
+    - autoconf
+    - automake
+    - libtool
+    - bison
+    - curl
+    - sqlite-devel
+
 - name: "Compile Ruby"
   shell: "./configure  --prefix {{ ruby_home }}"
   args:
@@ -67,8 +92,13 @@
 
 - name: "Install Ruby environment variables"
   template:
-    src: "templates/ruby.sh.j2"
+    src: "ruby.sh.j2"
     dest: "/etc/profile.d/ruby.sh"
+
+
+- name: "Update Gem"
+  shell: "source /etc/profile.d/ruby.sh && gem update --system"
+
 
 - name: "Clean Temporary files"
   file:
