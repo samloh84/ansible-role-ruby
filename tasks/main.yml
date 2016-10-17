@@ -94,6 +94,7 @@
   template:
     src: "ruby.sh.j2"
     dest: "/etc/profile.d/ruby.sh"
+    mode: 0644
 
 
 - name: "Update Gem"
