@@ -1,3 +1,3 @@
 ruby_version: 2.3.1
 prefix: "/opt/ruby"
-tmp_prefix: "/tmp/ruby"
+tmp_prefix: "{{ ansible_env.HOME }}/tmp/ruby"
