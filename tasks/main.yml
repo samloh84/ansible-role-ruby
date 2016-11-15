@@ -78,14 +78,17 @@
 - name: "Compile Ruby"
   shell: "./configure  --prefix {{ ruby_home }}"
   args:
+    executable: /bin/bash
     chdir: "{{ ruby_temp_path }}"
 
 - shell: "make"
   args:
+    executable: /bin/bash
     chdir: "{{ ruby_temp_path }}"
 
 - shell: "make install"
   args:
+    executable: /bin/bash
     chdir: "{{ ruby_temp_path }}"
 
 - name: "Install Ruby environment variables"
@@ -97,7 +100,8 @@
 
 - name: "Update Gem"
   shell: "source /etc/profile.d/ruby.sh && gem update --system"
-
+  args:
+    executable: /bin/bash
 
 - name: "Clean Temporary files"
   file:
@@ -106,6 +110,8 @@
 
 - name: "Fix Permissions"
   shell: "{{ item }}"
+  args:
+    executable: /bin/bash
   with_items:
     - "chown -R root:root {{ ruby_home }}"
     - "find {{ ruby_home }} -perm -u+r -exec chmod a+r {} \\;"
