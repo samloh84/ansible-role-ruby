@@ -106,11 +106,8 @@
 
 - name: "Fix Permissions"
   shell: "{{ item }}"
-  args:
-    chdir: "{{ prefix }}"
   with_items:
-    - "chown -R root:root ."
-    - "find . -perm -u+r -exec chmod a+r {} \\;"
-    - "find . -perm -u+w -exec chmod a+w {} \\;"
-    - "find . -perm -u+x -exec chmod a+x {} \\;"
-
+    - "chown -R root:root {{ ruby_home }}"
+    - "find {{ ruby_home }} -perm -u+r -exec chmod a+r {} \\;"
+    - "find {{ ruby_home }} -perm -u+w -exec chmod a+w {} \\;"
+    - "find {{ ruby_home }} -perm -u+x -exec chmod a+x {} \\;"
